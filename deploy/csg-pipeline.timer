@@ -1,0 +1,16 @@
+[Unit]
+Description=Trigger the daily submission pipeline at 23:00 Beijing time
+Documentation=file:///home/ubuntu/csg-ai-market/README.md
+
+[Timer]
+# 23:00 北京时间 = 15:00 UTC（北京无夏令时，全年固定）。
+# 距"BJ 次日 02:00"截止还有 3 小时，留足重试与人工复核余量。
+# 此刻 LA 为 D-1 日 07:00，D-1 的日前价格已于 D-2 13:00 发布，历史数据完整。
+OnCalendar=*-*-* 15:00:00 UTC
+# 机器若在触发时刻离线，开机后立即补跑（不是跳过）
+Persistent=true
+AccuracySec=30s
+RandomizedDelaySec=60
+
+[Install]
+WantedBy=timers.target

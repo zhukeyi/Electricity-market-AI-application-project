@@ -1,0 +1,24 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# --- 运行产物（不纳入版本库） ---
+# 提交文件、运行记录、缓存、彩排产物都在这里，按需在本地保留
+data/out/
+data/cache/
+
+# --- 本地配置（含队名等，用 .example 代替） ---
+.pipeline.env
+
+# --- 系统文件 ---
+.DS_Store
+Thumbs.db
+
+# --- 编辑器 ---
+.idea/
+.vscode/
+*.swp

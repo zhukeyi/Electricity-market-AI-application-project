@@ -1,0 +1,27 @@
+[Unit]
+Description=CSG AI+Power Market daily submission pipeline
+Documentation=file:///home/ubuntu/csg-ai-market/README.md
+After=network-online.target time-sync.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/csg-ai-market
+Environment=PYTHONUNBUFFERED=1
+Environment=TZ=UTC
+# 队名/成员/webhook 等敏感或易变配置放这里，不进版本库
+EnvironmentFile=-/home/ubuntu/csg-ai-market/.pipeline.env
+ExecStart=/home/ubuntu/csg-ai-market/scripts/daily.sh
+TimeoutStartSec=2400
+# 守护层内部已重试 3 次；这里只兜网络类瞬时故障
+Restart=on-failure
+RestartSec=120
+StartLimitIntervalSec=3600
+StartLimitBurst=3
+StandardOutput=append:/home/ubuntu/csg-ai-market/data/out/runs/systemd.log
+StandardError=append:/home/ubuntu/csg-ai-market/data/out/runs/systemd.log
+
+[Install]
+WantedBy=multi-user.target
